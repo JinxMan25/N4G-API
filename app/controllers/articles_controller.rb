@@ -3,4 +3,10 @@ class ArticlesController < ApplicationController
   def index
 
   end
+
+  private
+
+  def get_articles
+  
+  end
 end
