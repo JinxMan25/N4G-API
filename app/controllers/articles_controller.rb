@@ -19,6 +19,8 @@ class ArticlesController < ApplicationController
         links << item.text
       end
     end
+    @data = { :links => links }
+    byebug
   end
 
 end
