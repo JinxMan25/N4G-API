@@ -11,10 +11,13 @@ class ArticlesController < ApplicationController
   def get_articles
     url = "http://www.n4g.com/"
     doc = Nokogiri::HTML(open(url))
+
     links = []
     sources = []
 
-    doc.css(".sl-item-textwrap h1 a").each do |item|
+    cells = []
+
+    doc.css(".sl-item").each do |item|
       if ( item['href'] =~ /\/ads\/(.*)/ ) 
 
       else
