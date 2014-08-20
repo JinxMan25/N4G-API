@@ -18,10 +18,11 @@ class ArticlesController < ApplicationController
     cells = []
 
     doc.css(".sl-item").each do |item|
+      article_link = item.css("h1 a")
       if ( item['href'] =~ /\/ads\/(.*)/ ) 
 
       else
-        links << item.text
+        links << article_link.text
       end
     end
   end
