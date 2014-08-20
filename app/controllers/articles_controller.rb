@@ -1,6 +1,8 @@
 class ArticlesController < ApplicationController
   before_filter :get_articles, :only => [:index]
   def index
+    @data = { :links => links }
+    render :json => @data
 
   end
 
@@ -19,8 +21,6 @@ class ArticlesController < ApplicationController
         links << item.text
       end
     end
-    @data = { :links => links }
-    byebug
   end
 
 end
