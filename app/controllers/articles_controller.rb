@@ -19,7 +19,7 @@ class ArticlesController < ApplicationController
 
     doc.css(".sl-item").each do |item|
       article_link = item.css("h1 a")
-      if ( item['href'] =~ /\/ads\/(.*)/ ) 
+      if ( item.css("h1 a").first.attr("href") =~ /\/ads\/(.*)/ ) 
 
       else
         links << article_link.text
