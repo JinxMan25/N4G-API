@@ -24,10 +24,6 @@ class ArticlesController < ApplicationController
 
       end
     end
-
-    doc.css(".sl-source a"). each do |source|
-      sources << source['href']
-    end
   end
 
 end
