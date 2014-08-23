@@ -21,6 +21,10 @@ class ArticlesController < ApplicationController
         links << element_link.text
       end
     end
+
+    doc.css(".sl-source a"). each do |source|
+      sources << source['href']
+    end
   end
 
 end
