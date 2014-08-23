@@ -12,10 +12,6 @@ class ArticlesController < ApplicationController
     url = "http://www.n4g.com/"
     doc = Nokogiri::HTML(open(url))
 
-    links = []
-    sources = []
-
-    cells = []
 
     doc.css(".sl-item").each do |item|
       article_link = item.css("h1 a")
