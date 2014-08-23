@@ -18,7 +18,10 @@ class ArticlesController < ApplicationController
       #do nothing
       else
         element_title = article_link.text
-        links << element_link.text
+
+        article_source = item.css(".sl-source a").attr("href").text
+        source = "http://www.n4g.com/#{article_source}"
+
       end
     end
 
