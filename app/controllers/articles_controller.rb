@@ -23,7 +23,8 @@ class ArticlesController < ApplicationController
         source = "http://www.n4g.com/#{article_source}"
 
         article_description = item.css(".sl-item-description")
-
+        article_description.at('b').unlink
+        description = article_description.text.split.join(" ")
       end
     end
   end
