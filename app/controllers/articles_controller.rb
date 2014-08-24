@@ -12,6 +12,8 @@ class ArticlesController < ApplicationController
     url = "http://www.n4g.com/"
     doc = Nokogiri::HTML(open(url))
 
+    cell = []
+    
     doc.css(".sl-item").each do |item|
       element_link = item.css("h1 a")
       if (element_link.first.attr("href") =~ /\/ads\/(.*)/ ) 
@@ -27,6 +29,7 @@ class ArticlesController < ApplicationController
         description = article_description.text.split.join(" ")
 
         tempCell = { :title => article_link, :link => source, :description => description }
+        cell << tempCell
       end
     end
   end
