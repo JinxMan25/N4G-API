@@ -22,6 +22,8 @@ class ArticlesController < ApplicationController
         article_source = item.css(".sl-source a").attr("href").text
         source = "http://www.n4g.com/#{article_source}"
 
+        article_description = item.css(".sl-item-description")
+
       end
     end
   end
