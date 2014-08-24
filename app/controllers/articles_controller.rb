@@ -26,6 +26,7 @@ class ArticlesController < ApplicationController
         article_description.at('b').unlink
         description = article_description.text.split.join(" ")
 
+        tempCell = { :title => article_link, :link => source, :description => description }
       end
     end
   end
