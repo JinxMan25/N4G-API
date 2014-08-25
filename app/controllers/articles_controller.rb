@@ -28,7 +28,9 @@ class ArticlesController < ApplicationController
         article_description.at('b').unlink
         description = article_description.text.split.join(" ")
 
-        tempCell = { :title => article_link, :link => source, :description => description }
+        temperature = item.css(".sl-item-temp").text
+
+        tempCell = { :title => article_link, :link => source, :description => description, :temperature => temperature }
         cell << tempCell
       end
     end
