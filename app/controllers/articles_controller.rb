@@ -2,12 +2,15 @@ class ArticlesController < ApplicationController
   before_filter :get_articles, :only => [:index]
   def index
     @data = cell
+    byebug
     render :json => @data
   end
 
   private
 
   def get_articles
+    require 'open-uri'
+
     url = "http://www.n4g.com/"
     doc = Nokogiri::HTML(open(url))
 
@@ -29,7 +32,7 @@ class ArticlesController < ApplicationController
 
         temperature = item.css(".sl-item-temp").text
 
-        tempCell = { :title => article_link, :link => source, :description => description, :temperature => temperature }
+        tempCell = { :title => article_title, :link => source, :description => description, :temperature => temperature }
         cell << tempCell
       end
     end
