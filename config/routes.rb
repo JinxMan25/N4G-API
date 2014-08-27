@@ -1,5 +1,5 @@
 N4gApi::Application.routes.draw do
-  get "index/" :to => "articles_controller#index"
+  get "index/", :to => "articles#index"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
