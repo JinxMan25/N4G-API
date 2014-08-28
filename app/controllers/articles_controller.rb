@@ -1,7 +1,10 @@
 class ArticlesController < ApplicationController
   before_filter :get_articles, :only => [:index]
   def index
-    render :json => @data
+    @articles = Rails.cache.fetch("n4g/articles/v1", :expires_in => 1.hour) do
+      @data
+    end
+    render :json => @articles
   end
 
   private
