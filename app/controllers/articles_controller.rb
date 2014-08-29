@@ -1,7 +1,14 @@
 class ArticlesController < ApplicationController
   before_filter :get_articles, :only => [:index]
   def index
+    byebug
     render :json => @articles
+  end
+
+  def sort_by_temp
+    @sorted_articles = Rails.cache.fetch("n4g/articles/v1", :expires_in => 5.minutes do
+      collect_articles
+    end
   end
 
   private
