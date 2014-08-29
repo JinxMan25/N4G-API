@@ -13,7 +13,9 @@ class ArticlesController < ApplicationController
     doc = Nokogiri::HTML(open(url))
 
     @data = []
-    
+  end
+
+  def collect_articles
     doc.css(".sl-item").each do |item|
       element_link = item.css("h1 a")
       if (element_link.first.attr("href") =~ /\/ads\/(.*)/ ) 
@@ -34,10 +36,6 @@ class ArticlesController < ApplicationController
         @data << tempCell
       end
     end
-  end
-
-  def collect_articles
-
   end
 
 end
