@@ -12,7 +12,7 @@ class ArticlesController < ApplicationController
     url = "http://www.n4g.com/"
     doc = Nokogiri::HTML(open(url))
 
-    @articles = Rails.cache.fetch("n4g/articles/v1", :expires_in => 1.hour) do 
+    @articles = Rails.cache.fetch("n4g/articles/v2", :expires_in => 1.hour) do 
       collect_articles
     end
   end
