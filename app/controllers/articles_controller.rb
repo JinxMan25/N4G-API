@@ -1,7 +1,7 @@
 class ArticlesController < ApplicationController
   before_filter :get_articles, :only => [:index]
   def index
-    render :json => @data
+    render :json => @articles
   end
 
   private
@@ -12,7 +12,9 @@ class ArticlesController < ApplicationController
     url = "http://www.n4g.com/"
     doc = Nokogiri::HTML(open(url))
 
-    collect_articles
+    @articles = Rails.cache.fetch("n4g/articles/v1", :expires_in => 1.hour) do 
+      collect_articles
+    end
   end
 
   def collect_articles
