@@ -8,8 +8,7 @@ class ArticlesController < ApplicationController
     @sorted_articles = Rails.cache.fetch("n4g/articles/v1", :expires_in => 5.minute) do
       collect_articles
     end
-    @sorted_articles.sort_by { |hash| hash[:temperature] }
-    byebug
+    @sorted_articles.sort_by!{ |hash| -hash[:temperature].to_i }
     render :json => @sorted_articles
   end
 
