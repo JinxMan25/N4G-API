@@ -13,6 +13,7 @@ class ArticlesController < ApplicationController
   end
 
   def top_news
+    doc = Nokogiri::HTML(open(
 
   end
 
