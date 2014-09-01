@@ -22,8 +22,7 @@ class ArticlesController < ApplicationController
   def get_articles
     require 'open-uri'
 
-    url = "http://www.n4g.com/"
-    doc = Nokogiri::HTML(open(url))
+    doc = Nokogiri::HTML(open(URL))
 
     @articles = Rails.cache.fetch("n4g/articles/v1", :expires_in => 5.minute) do 
       collect_articles
@@ -32,7 +31,7 @@ class ArticlesController < ApplicationController
 
   def collect_articles
     @data = []
-    doc = Nokogiri::HTML(open("http://www.n4g.com/"))
+    doc = Nokogiri::HTML(open(URL))
     doc.css(".sl-item").each do |item|
       element_link = item.css("h1 a")
       if (element_link.first.attr("href") =~ /\/ads\/(.*)/ ) 
@@ -41,7 +40,7 @@ class ArticlesController < ApplicationController
         article_title = element_link.text
 
         article_source = item.css(".sl-source a").attr("href").text
-        source = "http://www.n4g.com/#{article_source}"
+        source = "#{URL}#{article_source}"
 
         article_description = item.css(".sl-item-description")
         article_description.at('b').unlink
