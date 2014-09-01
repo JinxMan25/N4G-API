@@ -15,7 +15,13 @@ class ArticlesController < ApplicationController
 
   def top_news
     doc = Nokogiri::HTML(open(URL))
+    doc.css(".shsl-item a").each do |item|
+      article_title = item.css(".shsl-item-title").text
 
+      temperature = item.css('b[class^="shsl-temp"]').text
+
+      article_link = 
+    end
   end
 
   private
