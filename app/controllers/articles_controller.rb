@@ -14,7 +14,8 @@ class ArticlesController < ApplicationController
   end
 
   def next_page
-    next_page_url = "http://n4g.com/channel/all/home/all/above50/medium/2"
+    page = params[:page_number].to_i + 1
+    next_page_url = "http://n4g.com/channel/all/home/all/above50/medium/#{page}"
     doc = Nokogiri::HTML(open(next_page_url))
     @articles = collect_articles(doc)
 
