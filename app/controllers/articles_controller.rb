@@ -21,8 +21,10 @@ class ArticlesController < ApplicationController
       temperature = item.css('b[class^="shsl-temp"]').text.gsub!(/\D/, "")
 
       comments = item.css(".shsl-item-comments").text
+
+      img = item.css(".shsl-item-imagewrap-inner img").first.attr("src")
       
-      tempCell = { :title => article_title, :temperature => temperature, :comments => comments }
+      tempCell = { :title => article_title, :temperature => temperature, :comments => comments, :image_url => img }
 
       @articles << tempCell
     end
