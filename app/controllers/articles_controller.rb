@@ -62,7 +62,9 @@ class ArticlesController < ApplicationController
 
         temperature = item.css(".sl-item-temp").text.gsub!(/\D/, "")
 
-        tempCell = { :title => article_title, :link => source, :description => description, :temperature => temperature, :comments => comments }
+        img = item.css(".sl-item-imagewrap img").first.attr("src")
+
+        tempCell = { :title => article_title, :link => source, :description => description, :temperature => temperature, :comments => comments, :image_url => img }
         @data << tempCell
       end
     end
