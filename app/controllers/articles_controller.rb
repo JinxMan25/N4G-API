@@ -12,6 +12,10 @@ class ArticlesController < ApplicationController
     render :json => @sorted_articles
   end
 
+  def top_news
+
+  end
+
   private
 
   def get_articles
