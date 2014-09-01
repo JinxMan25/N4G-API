@@ -15,16 +15,20 @@ class ArticlesController < ApplicationController
 
   def top_news
     doc = Nokogiri::HTML(open(URL))
+    top_news_container = doc.css(".shsl-wrap")
     @articles = []
-    doc.css(".shsl-item a").each do |item|
+    top_news_container.css(".shsl-item").each do |item|
       article_title = item.css(".shsl-item-title").text
 
       temperature = item.css('b[class^="shsl-temp"]').text
+
+      comments = item.css(".shsl-item-comments").text
       
-      tempCell = { :title => article_title, :temperature => temperature }
+      tempCell = { :title => article_title, :temperature => temperature, :comments => comments }
+
       @articles << tempCell
     end
-
+    byebug
     render :json => @articles
   end
 
