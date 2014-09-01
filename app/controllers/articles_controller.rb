@@ -1,7 +1,6 @@
 class ArticlesController < ApplicationController
   before_filter :get_articles, :only => [:articles, :sort_by_temp]
   def articles
-    byebug
     render :json => @articles
   end
 
@@ -18,9 +17,8 @@ class ArticlesController < ApplicationController
     top_news_container = doc.css(".shsl-wrap")
     @articles = []
     top_news_container.css(".shsl-item").each do |item|
-      article_title = item.css(".shsl-item-title").text
-
-      temperature = item.css('b[class^="shsl-temp"]').text
+      article_title = item.css(".shsl-item-title").text.gsub(/nbsp/, "")
+      temperature = item.css('b[class^="shsl-temp"]').text.gsub!(/\D/, "")
 
       comments = item.css(".shsl-item-comments").text
       
@@ -28,7 +26,6 @@ class ArticlesController < ApplicationController
 
       @articles << tempCell
     end
-    byebug
     render :json => @articles
   end
 
@@ -61,9 +58,11 @@ class ArticlesController < ApplicationController
         article_description.at('b').unlink
         description = article_description.text.split.join(" ")
 
+        comments = item.css(".sl-com2 a").text[/\d+/]
+
         temperature = item.css(".sl-item-temp").text.gsub!(/\D/, "")
 
-        tempCell = { :title => article_title, :link => source, :description => description, :temperature => temperature }
+        tempCell = { :title => article_title, :link => source, :description => description, :temperature => temperature, :comments => comments }
         @data << tempCell
       end
     end
