@@ -16,8 +16,12 @@ class ArticlesController < ApplicationController
   def next_page
     page = params[:page_number].to_i + 1
     next_page_url = "http://n4g.com/channel/all/home/all/above50/medium/#{page}"
+
     doc = Nokogiri::HTML(open(next_page_url))
-    @articles = collect_articles(doc)
+
+    @articles = Rails.cache.fetch("n4g/articles/#{page}", :expires_in => 15.minute ) do
+      collect_articles(doc)
+    end
 
     render :json => @articles
     
