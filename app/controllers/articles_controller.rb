@@ -1,6 +1,7 @@
 class ArticlesController < ApplicationController
-  before_filter :get_articles, :only => [:index, :sort_by_temp]
-  def index
+  before_filter :get_articles, :only => [:articles, :sort_by_temp]
+  def articles
+    byebug
     render :json => @articles
   end
 
@@ -13,7 +14,7 @@ class ArticlesController < ApplicationController
   end
 
   def top_news
-    doc = Nokogiri::HTML(open(
+    doc = Nokogiri::HTML(open(URL))
 
   end
 
