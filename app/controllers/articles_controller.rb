@@ -5,11 +5,18 @@ class ArticlesController < ApplicationController
   end
 
   def sort_by_temp
-    @sorted_articles = Rails.cache.fetch("n4g/articles/v1", :expires_in => 5.minute) do
-      collect_articles
+    doc = Nokogiri::HTML(open(URL))
+    @sorted_articles = Rails.cache.fetch("n4g/articles/sorted", :expires_in => 5.minute) do
+      collect_articles(doc)
     end
     @sorted_articles.sort_by!{ |hash| -hash[:temperature].to_i }
     render :json => @sorted_articles
+  end
+
+  def next_page
+    next_page_url = "http://n4g.com/channel/all/home/all/above50/medium/2"
+    doc = Nokogiri::HTML(open(next_page_url))
+    
   end
 
   def top_news
@@ -39,13 +46,12 @@ class ArticlesController < ApplicationController
     doc = Nokogiri::HTML(open(URL))
 
     @articles = Rails.cache.fetch("n4g/articles/v1", :expires_in => 5.minute) do 
-      collect_articles
+      collect_articles(doc)
     end
   end
 
-  def collect_articles
+  def collect_articles(doc)
     @data = []
-    doc = Nokogiri::HTML(open(URL))
     doc.css(".sl-item").each do |item|
       element_link = item.css("h1 a")
       if (element_link.first.attr("href") =~ /\/ads\/(.*)/ ) 
