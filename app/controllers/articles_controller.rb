@@ -1,16 +1,15 @@
 class ArticlesController < ApplicationController
   before_filter :get_articles, :only => [:articles, :sort_by_temp]
   def articles
-    render :json => @articles
+    @articles = { :articles => @all_articles}
+    render :json => @articles 
   end
 
   def sort_by_temp
-    doc = Nokogiri::HTML(open(URL))
-    @sorted_articles = Rails.cache.fetch("n4g/articles/sorted", :expires_in => 5.minute) do
-      collect_articles(doc)
-    end
-    @sorted_articles.sort_by!{ |hash| -hash[:temperature].to_i }
-    render :json => @sorted_articles
+    @all_articles.sort_by!{ |hash| -hash[:temperature].to_i }
+    @articles = { :articles => @all_articles }
+
+    render :json => @articles
   end
 
   def next_page
@@ -53,7 +52,7 @@ class ArticlesController < ApplicationController
 
     doc = Nokogiri::HTML(open(URL))
 
-    @articles = Rails.cache.fetch("n4g/articles/v1", :expires_in => 5.minute) do 
+    @all_articles = Rails.cache.fetch("n4g/articles/v1", :expires_in => 5.minute) do 
       collect_articles(doc)
     end
   end
