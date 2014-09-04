@@ -29,7 +29,7 @@ class ArticlesController < ApplicationController
     _filter = params[:filter].to_s
     page = params[:page_number].to_i 
 
-    next_page_url = "http://n4g.com/channel/all/home/all/above50/medium/#{page}"
+    next_page_url = "http://n4g.com/channel/all/home/all/#{_filter}/medium/#{page}"
 
     doc = Nokogiri::HTML(open(next_page_url))
 
