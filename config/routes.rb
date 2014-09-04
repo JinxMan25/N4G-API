@@ -3,7 +3,7 @@ N4gApi::Application.routes.draw do
   get "articles/sorted", :to => "articles#sort_by_temp"
   get "articles/top", :to => "articles#top_news"
   get "articles/page/:page_number", :to => "articles#next_page"
-  get "articles/:filter/:page_number", :to "articles#filtered_stories"
+  get "articles/:filter/:page_number", :to => "articles#filtered_stories"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
