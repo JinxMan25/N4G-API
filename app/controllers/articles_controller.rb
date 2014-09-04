@@ -26,7 +26,7 @@ class ArticlesController < ApplicationController
   end
 
   def filtered_stories
-    _filter = params[:filter]
+    _filter = params[:filter].to_s
     page = params[:page_number].to_i 
 
     next_page_url = "http://n4g.com/channel/all/home/all/above50/medium/#{page}"
