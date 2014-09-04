@@ -25,6 +25,21 @@ class ArticlesController < ApplicationController
     
   end
 
+  def filtered_stories
+    _filter = params[:filter]
+    page = params[:page_number].to_i 
+
+    next_page_url = "http://n4g.com/channel/all/home/all/above50/medium/#{page}"
+
+    doc = Nokogiri::HTML(open(next_page_url))
+
+    @articles = Rails.cache.fetch("n4g/articles/#{_filter}/#{page}", :expires_in => 1.minute )  do
+      collec_articles(doc)
+    end
+
+    render :json => @articles
+  end
+
   def top_news
     doc = Nokogiri::HTML(open(URL))
     top_news_container = doc.css(".shsl-wrap")
