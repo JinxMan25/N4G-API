@@ -34,7 +34,7 @@ class ArticlesController < ApplicationController
     doc = Nokogiri::HTML(open(next_page_url))
 
     @articles = Rails.cache.fetch("n4g/articles/#{_filter}/#{page}", :expires_in => 1.minute )  do
-      collec_articles(doc)
+      collect_articles(doc)
     end
 
     render :json => @articles
