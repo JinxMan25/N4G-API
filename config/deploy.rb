@@ -2,7 +2,7 @@ require "bundler/capistrano"
 
 server "162.243.237.196", :web, :app, :db, primary: true
 
-set :application, "n4g-api"
+set :application, "N4G-API"
 set :user, "root"
 set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
