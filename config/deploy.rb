@@ -7,7 +7,7 @@ set :user, "root"
 set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
 set :use_sudo, false
-
+set :default_shell, '/bin/bash -l'
 set :scm, "git"
 set :repository, "git@github.com:clanofnoobs/#{application}.git"
 set :branch, "master"
