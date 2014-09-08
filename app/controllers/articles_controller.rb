@@ -18,9 +18,11 @@ class ArticlesController < ApplicationController
 
     doc = Nokogiri::HTML(open(next_page_url))
 
-    @articles = Rails.cache.fetch("n4g/articles/#{page}", :expires_in => 15.minute ) do
+    @next_page_articles = Rails.cache.fetch("n4g/articles/#{page}", :expires_in => 15.minute ) do
       collect_articles(doc)
     end
+
+    @articles = { :articles => @next_page_articles }
 
     render :json => @articles
     
@@ -34,9 +36,11 @@ class ArticlesController < ApplicationController
 
     doc = Nokogiri::HTML(open(next_page_url))
 
-    @articles = Rails.cache.fetch("n4g/articles/#{_filter}/#{page}", :expires_in => 1.minute )  do
+    @filtered_articles = Rails.cache.fetch("n4g/articles/#{_filter}/#{page}", :expires_in => 1.minute )  do
       collect_articles(doc)
     end
+
+    @articles = { :articles => @filtered_articles }
 
     render :json => @articles
   end
@@ -44,7 +48,7 @@ class ArticlesController < ApplicationController
   def top_news
     doc = Nokogiri::HTML(open(URL))
     top_news_container = doc.css(".shsl-wrap")
-    @articles = []
+    @top_articles = []
     top_news_container.css(".shsl-item").each do |item|
       article_title = item.css(".shsl-item-title").text.gsub(/nbsp/, "")
       temperature = item.css('b[class^="shsl-temp"]').text.gsub!(/\D/, "")
@@ -55,8 +59,9 @@ class ArticlesController < ApplicationController
       
       tempCell = { :title => article_title, :temperature => temperature, :comments => comments, :image_url => img }
 
-      @articles << tempCell
+      @top_articles << tempCell
     end
+    @articles = { :articles => @top_articles }
     render :json => @articles
   end
 
