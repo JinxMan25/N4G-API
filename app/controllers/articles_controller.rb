@@ -1,7 +1,8 @@
 class ArticlesController < ApplicationController
   before_filter :get_articles, :only => [:articles, :sort_by_temp]
   def articles
-    render :json => @all_articles 
+    @articles = { :articles => @all_articles }
+    render :json => @articles 
   end
 
   def sort_by_temp
