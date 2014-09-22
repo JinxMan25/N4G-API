@@ -99,7 +99,7 @@ class ArticlesController < ApplicationController
 
         comments = item.css(".sl-com2 a").text[/\d+/]
         if comments == nil
-          comments = 0
+          comments = "0"
         end
 
         temperature = item.css(".sl-item-temp").text.gsub!(/\D/, "")
