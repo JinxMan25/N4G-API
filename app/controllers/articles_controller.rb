@@ -90,6 +90,10 @@ class ArticlesController < ApplicationController
       else
         article_title = element_link.text
 
+        user = item.css(".sl-user a").text
+
+        posted = item.css(".sl-item-description b").text
+
         article_source = item.css(".sl-source a").attr("href").text
         source = "#{URL}#{article_source}"
 
@@ -106,7 +110,7 @@ class ArticlesController < ApplicationController
 
         img = item.css(".sl-item-imagewrap img").first.attr("src")
 
-        tempCell = { :title => article_title, :link => source, :description => description, :temperature => temperature, :comments => comments, :image_url => img }
+        tempCell = { :title => article_title, :link => source, :description => description, :temperature => temperature, :comments => comments, :image_url => img, :posted => posted, :user => user }
         @data << tempCell
       end
     end
