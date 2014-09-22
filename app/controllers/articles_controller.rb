@@ -98,6 +98,9 @@ class ArticlesController < ApplicationController
         description = article_description.text.split.join(" ")
 
         comments = item.css(".sl-com2 a").text[/\d+/]
+        if comments == nil
+          comments = 0
+        end
 
         temperature = item.css(".sl-item-temp").text.gsub!(/\D/, "")
 
