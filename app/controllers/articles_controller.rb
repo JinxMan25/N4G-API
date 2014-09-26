@@ -29,15 +29,15 @@ class ArticlesController < ApplicationController
   end
 
   def fetch_article_body
+    require 'open-uri'
     url = params[:url]
-
-    url.gsub(/ZXY(.*)/, "?")
-  
+    url.gsub!(/HTTP/, "http://")
+    url.gsub!(/QUESTION/, "?url=http://")
     doc = Nokogiri::HTML(open(url))
     
-    @article_html_contents = doc.css("#rdb-article-content").text
+    @article_html_contents = doc.css("#rdb-article-content")
     
-    render :json => @article_html_contents
+    render :text => @article_html_contents
   end
 
   def filtered_stories
