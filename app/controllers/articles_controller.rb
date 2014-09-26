@@ -30,6 +30,8 @@ class ArticlesController < ApplicationController
 
   def fetch_article_body
     url = params[:url]
+
+    url.gsub(/ZXY(.*)/, "?")
   
     doc = Nokogiri::HTML(open(url))
     
