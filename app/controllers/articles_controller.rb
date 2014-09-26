@@ -28,6 +28,16 @@ class ArticlesController < ApplicationController
     
   end
 
+  def fetch_article_body
+    url = params[:url]
+  
+    doc = Nokogiri::HTML(open(url))
+    
+    @article_html_contents = doc.css("#rdb-article-content").text
+    
+    render :json => @article_html_contents
+  end
+
   def filtered_stories
     _filter = params[:filter].to_s
     if params[:page_number]
