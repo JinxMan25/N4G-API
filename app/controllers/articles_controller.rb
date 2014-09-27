@@ -128,11 +128,11 @@ class ArticlesController < ApplicationController
         @data << tempCell
       end
     end
-    @data.map do |hash|
-      byebug
-      clickout = `curl --insecure hash[:link]` 
-      clickout_body = Nokogiri::HTML(actual)
-      clickout_link = clickout_body.css("h2 a").attr("href".text)
+    @data.each do |hash|
+      clickout = `curl --insecure #{hash[:link]}` 
+      clickout_body = Nokogiri::HTML(clickout)
+      clickout_link = clickout_body.css("h2 a").attr("href").text
+      hash[:link] = clickout_link
       #clickout = `curl --insecure #{source}`
       #clickout_body = Nokogiri::HTML(clickout)
       #actual_link = clickout_body.css("h2 a").attr("href").text
