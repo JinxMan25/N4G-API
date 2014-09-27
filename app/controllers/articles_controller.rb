@@ -109,6 +109,8 @@ class ArticlesController < ApplicationController
         article_source = item.css(".sl-source a").attr("href").text
         source = "#{URL}#{article_source}"
 
+        #get actual article from clickout
+
         article_description = item.css(".sl-item-description")
         article_description.at('b').unlink
         description = article_description.text.split.join(" ")
@@ -122,9 +124,18 @@ class ArticlesController < ApplicationController
 
         img = item.css(".sl-item-imagewrap img").first.attr("src")
 
-        tempCell = { :title => article_title, :link => source, :description => description, :temperature => temperature, :comments => comments, :image_url => img, :posted => posted, :user => user }
+        tempCell = { :title => article_title, :link => source, :description => description, :temperature => temperature, :comments => comments, :image_url => img, :posted => posted, :user => user}
         @data << tempCell
       end
+    end
+    @data.map do |hash|
+      byebug
+      clickout = `curl --insecure hash[:link]` 
+      clickout_body = Nokogiri::HTML(actual)
+      clickout_link = clickout_body.css("h2 a").attr("href".text)
+      #clickout = `curl --insecure #{source}`
+      #clickout_body = Nokogiri::HTML(clickout)
+      #actual_link = clickout_body.css("h2 a").attr("href").text
     end
     @data
   end
