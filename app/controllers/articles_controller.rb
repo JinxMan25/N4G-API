@@ -132,10 +132,7 @@ class ArticlesController < ApplicationController
       clickout = `curl --insecure #{hash[:link]}` 
       clickout_body = Nokogiri::HTML(clickout)
       clickout_link = clickout_body.css("h2 a").attr("href").text
-      hash[:link] = clickout_link
-      #clickout = `curl --insecure #{source}`
-      #clickout_body = Nokogiri::HTML(clickout)
-      #actual_link = clickout_body.css("h2 a").attr("href").text
+      hash.merge!(actual_link: clickout_link)
     end
     @data
   end
