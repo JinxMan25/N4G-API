@@ -83,6 +83,10 @@ class ArticlesController < ApplicationController
 
   private
 
+  def fetch_cached_page
+
+  end
+
   def get_articles
     require 'open-uri'
 
