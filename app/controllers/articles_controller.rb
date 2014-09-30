@@ -30,17 +30,6 @@ class ArticlesController < ApplicationController
     
   end
 
-  def fetch_article_body
-    require 'open-uri'
-    url = params[:url]
-    url.gsub!(/HTTP/, "http://")
-    url.gsub!(/QUESTION/, "?url=http://")
-    doc = Nokogiri::HTML(open(url))
-    
-    @article_html_contents = doc.css("#rdb-article-content")
-    
-    render :text => @article_html_contents
-  end
 
   def filtered_stories
     _filter = params[:filter].to_s
@@ -86,20 +75,36 @@ class ArticlesController < ApplicationController
   def fetch_cached_page
     url = params[:url]
 
-    web_content = Rails.cache.fetch("#{url}", :expires_in => 1.day) do 
+    @web_content = Rails.cache.fetch("#{url}", :expires_in => 1.day) do 
       truncate_url_webcontent(url)
     end
 
+    render :html => @web_content
   end
 
+  def fetch_article_body
+    require 'open-uri'
+    url = params[:url]
+    url.gsub!(/HTTP/, "http://")
+    url.gsub!(/QUESTION/, "?url=http://")
+    doc = Nokogiri::HTML(open(url))
+    
+    @article_html_contents = doc.css("#rdb-article-content")
+    
+    render :text => @article_html_contents
+  end
   private
 
   def truncate_url_webcontent(url)
+    
+    url.gsub!(/HTTP/, "http://")
+    url.gsub!(/QUESTION/, "?url=http://")
 
-    web_content = Rails.cache.fetch("#{url}", :expires_in => 1.day) do 
-      fetch_cached_page(url)
-    end
+    doc = Nokogiri::HTML(open(url))
 
+    web_content = doc.css("rdb_article-content")
+    
+    web_content
   end
 
   def get_articles
