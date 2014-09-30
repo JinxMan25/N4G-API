@@ -2,6 +2,8 @@ class ArticlesController < ApplicationController
   before_filter :get_articles, :only => [:articles, :sort_by_temp]
   def articles
     @articles = { :articles => @all_articles }
+    @test = Rails.cache.read("n4g/articles/3")
+    byebug
     render :json => @articles 
   end
 
@@ -81,9 +83,22 @@ class ArticlesController < ApplicationController
     render :json => @articles
   end
 
+  def fetch_cached_page
+    url = params[:url]
+
+    web_content = Rails.cache.fetch("#{url}", :expires_in => 1.day) do 
+      fetch_cached_page(url)
+    end
+
+  end
+
   private
 
-  def fetch_cached_page
+  def truncate_url_webcontent(url)
+
+    web_content = Rails.cache.fetch("#{url}", :expires_in => 1.day) do 
+      fetch_cached_page(url)
+    end
 
   end
 
