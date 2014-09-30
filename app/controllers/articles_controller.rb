@@ -87,7 +87,7 @@ class ArticlesController < ApplicationController
     url = params[:url]
 
     web_content = Rails.cache.fetch("#{url}", :expires_in => 1.day) do 
-      fetch_cached_page(url)
+      truncate_url_webcontent(url)
     end
 
   end
