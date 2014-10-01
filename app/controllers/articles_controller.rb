@@ -74,6 +74,8 @@ class ArticlesController < ApplicationController
 
   def fetch_cached_page
     url = params[:url]
+    url.gsub!(/HTTP/, "http://")
+    url.gsub!(/QUESTION/, "?url=http://")
 
     @web_content = Rails.cache.fetch("#{url}", :expires_in => 1.day) do 
       truncate_url_webcontent(url)
@@ -87,6 +89,7 @@ class ArticlesController < ApplicationController
     url = params[:url]
     url.gsub!(/HTTP/, "http://")
     url.gsub!(/QUESTION/, "?url=http://")
+    #test_url = "http://localhost:3000/articles/get/HTTPreadability.com/mQUESTIONn4g.com/news/clickout/1588316"
     doc = Nokogiri::HTML(open(url))
     
     @article_html_contents = doc.css("#rdb-article-content")
@@ -97,9 +100,6 @@ class ArticlesController < ApplicationController
 
   def truncate_url_webcontent(url)
     
-    url.gsub!(/HTTP/, "http://")
-    url.gsub!(/QUESTION/, "?url=http://")
-
     doc = Nokogiri::HTML(open(url))
 
     web_content = doc.css("rdb_article-content")
