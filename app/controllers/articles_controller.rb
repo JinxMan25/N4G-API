@@ -132,6 +132,7 @@ class ArticlesController < ApplicationController
 
         article_source = item.css(".sl-source a").attr("href").text
         source = "#{URL}#{article_source}"
+        source.gsub!(/http:\/\//, "QUESTION")
 
         #get actual article from clickout
 
