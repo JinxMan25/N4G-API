@@ -1,5 +1,8 @@
 require "bundler/capistrano"
 
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
+
 server "162.243.237.196", :web, :app, :db, primary: true
 
 set :application, "N4G-API"
