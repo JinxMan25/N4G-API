@@ -7,7 +7,7 @@ namespace :readability_scrape do
     url_array = hash.map { |hash| hash[:link] }
     url_array.each do |url|
       url.gsub!(/QUESTION/, "?url=http://")
-      content = Rails.cache.fetch("http://readability.com/m#{url}", :expires_in => 2.day) do
+      content = Rails.cache.fetch("http://readability.com/m#{url}", :expires_in => 1.day) do
         html = open("http://readability.com/m#{url}").read
       end
     end
@@ -20,7 +20,7 @@ namespace :readability_scrape do
       url_array = hash.map { |hash| hash[:link] }
       url_array.each do |url|
         url.gsub!(/QUESTION/, "?url=http://")
-        content = Rails.cache.fetch("http://readability.com/m#{url}", :expires_in => 2.hours) do
+        content = Rails.cache.fetch("http://readability.com/m#{url}", :expires_in => 1.day) do
           html = open("http://readability.com/m#{url}").read
         end
       end
