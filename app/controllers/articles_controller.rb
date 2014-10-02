@@ -99,6 +99,9 @@ class ArticlesController < ApplicationController
     
     render :text => @article_html_contents
   end
+  
+
+
   private
 
   def truncate_url_webcontent(url)
