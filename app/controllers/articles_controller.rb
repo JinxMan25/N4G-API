@@ -81,7 +81,10 @@ class ArticlesController < ApplicationController
       truncate_url_webcontent(url)
     end
 
-    render :html => @web_content
+    doc = Nokogiri::HTML(@web_content)
+    @content = doc.css("#rdb-article-content")
+
+    render :text => @content
   end
 
   def fetch_article_body
@@ -99,12 +102,10 @@ class ArticlesController < ApplicationController
   private
 
   def truncate_url_webcontent(url)
-    
-    doc = Nokogiri::HTML(open(url))
+    require 'open-uri'
 
-    web_content = doc.css("rdb_article-content")
-    
-    web_content
+    html = open(url).read
+
   end
 
   def get_articles
