@@ -2,8 +2,6 @@ class ArticlesController < ApplicationController
   before_filter :get_articles, :only => [:articles, :sort_by_temp]
   def articles
     @articles = { :articles => @all_articles }
-    @test = Rails.cache.read("n4g/articles/3")
-    byebug
     render :json => @articles 
   end
 
@@ -15,6 +13,7 @@ class ArticlesController < ApplicationController
   end
 
   def next_page
+    #pre-increment because n4g doesn't start at page 1
     page = params[:page_number].to_i + 1
     next_page_url = "http://n4g.com/channel/all/home/all/above50/medium/#{page}"
 
