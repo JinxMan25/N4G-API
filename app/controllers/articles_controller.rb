@@ -3,7 +3,6 @@ class ArticlesController < ApplicationController
   def articles
     @articles = { :articles => @all_articles }
     system "rake readability_scrape:fetch_article_body &"
-    byebug
     render :json => @articles 
   end
 
