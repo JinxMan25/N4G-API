@@ -2,7 +2,7 @@ class ArticlesController < ApplicationController
   before_filter :get_articles, :only => [:articles, :sort_by_temp]
   def articles
     @articles = { :articles => @all_articles }
-    system "rake readability_scrape:fetch_article_body &"
+    #system "rake readability_scrape:fetch_article_body &"
     render :json => @articles 
   end
 
