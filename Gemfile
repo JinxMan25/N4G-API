@@ -29,6 +29,7 @@ group :development do
 end
 gem 'whenever', require: false
 gem 'sidekiq'
+gem 'capistrano-sidekiq'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
