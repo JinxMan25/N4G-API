@@ -1,6 +1,7 @@
 require "bundler/capistrano"
 require 'capistrano/server_definition'
 require 'capistrano/role'
+require 'sidekiq/capistrano'
 
 class Capistrano::Configuration
   def role_names_for_host(host)
