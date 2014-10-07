@@ -2,7 +2,7 @@ class ArticlesController < ApplicationController
   before_filter :get_articles, :only => [:articles, :sort_by_temp]
   def articles
     @articles = { :articles => @all_articles }
-    FetchArticles.perform_async
+    FetchArticles.perform_async(@all_articles, nil)
     #system "rake readability_scrape:fetch_article_body &"
     render :json => @articles 
   end
@@ -24,6 +24,8 @@ class ArticlesController < ApplicationController
     @next_page_articles = Rails.cache.fetch("n4g/articles/#{page}", :expires_in => 15.minute ) do
       collect_articles(doc)
     end
+
+    FetchArticles.perform_async(@next_page_articles, page)
 
     @articles = { :articles => @next_page_articles }
 
