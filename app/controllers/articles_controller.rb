@@ -86,8 +86,9 @@ class ArticlesController < ApplicationController
 
     doc = Nokogiri::HTML(@web_content)
     @content = doc.css("#rdb-article-content")
+    @doc = @content.to_s
 
-    render :text => @content
+    render :html => @doc
   end
 
   def fetch_article_body
@@ -100,7 +101,7 @@ class ArticlesController < ApplicationController
     
     @article_html_contents = doc.css("#rdb-article-content")
     
-    render :text => @article_html_contents
+    render :html => @article_html_contents
   end
   
 
