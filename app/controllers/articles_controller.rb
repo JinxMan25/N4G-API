@@ -1,6 +1,7 @@
 class ArticlesController < ApplicationController
   before_filter :get_articles, :only => [:articles, :sort_by_temp]
   def articles
+
     @articles = { :articles => @all_articles }
     FetchArticles.perform_async
     #system "rake readability_scrape:fetch_article_body &"
@@ -15,6 +16,7 @@ class ArticlesController < ApplicationController
   end
 
   def next_page
+
     #pre-increment because n4g doesn't start at page 1
     page = params[:page_number].to_i + 1
     next_page_url = "http://n4g.com/channel/all/home/all/above50/medium/#{page}"
@@ -23,6 +25,7 @@ class ArticlesController < ApplicationController
 
     @next_page_articles = Rails.cache.fetch("n4g/articles/#{page}", :expires_in => 15.minute ) do
       collect_articles(doc)
+
     end
 
     FetchArticles.perform_async
@@ -35,6 +38,8 @@ class ArticlesController < ApplicationController
 
 
   def filtered_stories
+
+    #convert obj
     _filter = params[:filter].to_s
     if params[:page_number]
       page = params[:page_number].to_i 
@@ -55,6 +60,7 @@ class ArticlesController < ApplicationController
     render :json => @articles
   end
 
+  #TODO- use this for UIPageView
   def top_news
     doc = Nokogiri::HTML(open(URL))
     top_news_container = doc.css(".shsl-wrap")
@@ -80,7 +86,8 @@ class ArticlesController < ApplicationController
     url.gsub!(/HTTP/, "http://")
     url.gsub!(/QUESTION/, "?url=http://")
 
-    @web_content = Rails.cache.fetch("#{url}", :expires_in => 1.day) do 
+    #cache readability stripped body
+    @web_content = Rails.cache.fetch("#{url}", :expires_in => 12.hours) do 
       truncate_url_webcontent(url)
     end
 
@@ -103,11 +110,10 @@ class ArticlesController < ApplicationController
     
     render :html => @article_html_contents
   end
-  
-
 
   private
 
+  #read webpage to create Nokogiri obj
   def truncate_url_webcontent(url)
     require 'open-uri'
 
@@ -126,9 +132,11 @@ class ArticlesController < ApplicationController
   end
 
   def collect_articles(doc)
+
     @data = []
     doc.css(".sl-item").each do |item|
       element_link = item.css("h1 a")
+      #skip ads
       if (element_link.first.attr("href") =~ /\/ads\/(.*)/ ) 
       #do nothing
       else
@@ -138,6 +146,8 @@ class ArticlesController < ApplicationController
 
         posted = item.css(".sl-item-description b").text
 
+        #get article source
+        
         article_source = item.css(".sl-source a").attr("href").text
         source = "#{URL}#{article_source}"
         source.gsub!(/http:\/\//, "QUESTION")
@@ -148,16 +158,23 @@ class ArticlesController < ApplicationController
         article_description.at('b').unlink
         description = article_description.text.split.join(" ")
 
+        #get comment count
+
         comments = item.css(".sl-com2 a").text[/\d+/]
         if comments == nil
           comments = "0"
         end
 
+        #get temperature
+        
         temperature = item.css(".sl-item-temp").text.gsub!(/\D/, "")
 
+        #get article thumbnail
         img = item.css(".sl-item-imagewrap img").first.attr("src")
 
-        tempCell = { :title => article_title, :link => source, :description => description, :temperature => temperature, :comments => comments, :image_url => img, :posted => posted, :user => user}
+        tempCell = { :title => article_title, :link => source, :description => description, :temperature => temperature, 
+                     :comments => comments, :image_url => img, :posted => posted, :user => user}
+
         @data << tempCell
       end
     end
