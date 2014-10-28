@@ -25,7 +25,6 @@ class ArticlesController < ApplicationController
 
     @next_page_articles = Rails.cache.fetch("n4g/articles/#{page}", :expires_in => 15.minute ) do
       collect_articles(doc)
-
     end
 
     FetchArticles.perform_async

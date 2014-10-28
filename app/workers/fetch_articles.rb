@@ -13,4 +13,8 @@ class FetchArticles
     end
   end
 
+  def page_perform(page)
+    hash = Railse.cache.fetch("n4g/articles/#{page}")
+  end
+
 end
