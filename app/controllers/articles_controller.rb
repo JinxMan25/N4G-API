@@ -36,6 +36,7 @@ class ArticlesController < ApplicationController
   end
 
   def search_article
+
     search_params = params[:search_query]
     Nokogiri::HTML(open("http://n4g.com/search"))
 
@@ -60,7 +61,7 @@ class ArticlesController < ApplicationController
 
     doc = Nokogiri::HTML(open(next_page_url))
 
-    @filtered_articles = Rails.cache.fetch("n4g/articles/#{_filter}/#{page}", :expires_in => 1.minute )  do
+    @filtered_articles = Rails.cache.fetch("n4g/articles/#{_filter}/#{page}", :expires_in => 5.minute )  do
       collect_articles(doc)
     end
 
