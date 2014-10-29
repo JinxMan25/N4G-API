@@ -35,6 +35,10 @@ class ArticlesController < ApplicationController
     
   end
 
+  def search_article
+    search_params = params[:search_query]
+  end
+
 
   def filtered_stories
 
