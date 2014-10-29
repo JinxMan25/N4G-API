@@ -5,6 +5,7 @@ N4gApi::Application.routes.draw do
   get "articles/page/:page_number", :to => "articles#next_page"
   get "articles/:filter/:page_number", :to => "articles#filtered_stories"
   get "articles/get/*url", :to => "articles#fetch_cached_page"
+  get "articles/search/:search_query", :to => "articles#search_article"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

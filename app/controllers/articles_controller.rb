@@ -37,6 +37,7 @@ class ArticlesController < ApplicationController
 
   def search_article
     search_params = params[:search_query]
+    Nokogiri::HTML(open("http://n4g.com/search"))
   end
 
 
