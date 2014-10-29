@@ -38,6 +38,11 @@ class ArticlesController < ApplicationController
   def search_article
     search_params = params[:search_query]
     Nokogiri::HTML(open("http://n4g.com/search"))
+
+    agent = Mechanize.new
+    search_page = agent.get "http://n4g.com/search"
+    login_form = search_page.form_with(:action: '/n4g.com/news/search')
+
   end
 
 
