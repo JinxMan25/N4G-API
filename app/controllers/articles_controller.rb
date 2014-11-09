@@ -42,7 +42,7 @@ class ArticlesController < ApplicationController
 
     agent = Mechanize.new
     search_page = agent.get "http://n4g.com/search"
-    login_form = search_page.form_with(:action: '/n4g.com/news/search')
+    login_form = search_page.form_with(:action => '/n4g.com/news/search')
 
   end
 
